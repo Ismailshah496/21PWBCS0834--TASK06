@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <title>Library Management System</title>
+    <style>
+        #body {
+            /* background-image: url('back.jpg'); */
+            background-color: rgb(210, 218, 219);
+            border-radius: 30px;
+        }
+    </style>
+</head>
+<body id="body">
+<div style="background-color: black;"> 
+<header style="text-align: center; color:white;"><h2>Online Library Management System (OLMS)</h2></header>
+</div>
+<div class="container" style="color: rgb(43, 11, 220);">
+    <div class="row">
+        <div class="col">
+            <h3>BOOK list</h3>
+            <ul id="bookList">
+                <li>F. Scott Fitzgerald, 'The Great Gatsby' <h6>ISBN: 3234</h6></li>
+                <li>Emily Brontë, 'Wuthering Heights' <h6>ISBN: 3234</h6></li>
+                <li>Margaret Atwood, 'The Handmaid's Tale' <h6>ISBN: 8765</h6></li>
+                <li>Chinua Achebe, 'Things Fall Apart' <h6>ISBN: 5645</h6></li>
+                <li>George Orwell, '1984' <h6>ISBN: 0098</h6></li>
+                <li>Toni Morrison, 'Beloved' <h6>ISBN: 4352</h6></li>
+            </ul>
+        </div>
+        <div class="col">
+            <h1> Adding New Book</h1>
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="inputGroup-sizing-default">Title</span>
+                <input type="text" class="form-control" id="newTitle" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+            </div>
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="inputGroup-sizing-default">Author</span>
+                <input type="text" class="form-control" id="newAuthor" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+            </div>
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="inputGroup-sizing-default">ISBN</span>
+                <input type="number" class="form-control" id="newISBN" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+            </div>
+            <button type="submit" class="btn btn-primary" onclick="addNewBook()">Add Book</button>
+        </div>
+        <div class="col">
+            <h1> Search For Book</h1>
+            <form class="d-flex">
+                <input class="form-control me-2" type="search" id="searchInput" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success" type="submit" onclick="searchBooks()">Search</button>
+            </form>
+            <p><b>Hint:</b> Search by Book Title/ISBN</p>
+        </div>
+    </div>
+</div>
+
+<!-- Option 1: Bootstrap Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+<script>
+    const bookList = document.getElementById("bookList");
+    const newTitleInput = document.getElementById("newTitle");
+    const newAuthorInput = document.getElementById("newAuthor");
+    const newISBNInput = document.getElementById("newISBN");
+
+    const books = new Set();
+
+    
+    function addNewBook() {
+        const title = newTitleInput.value.trim();
+        const author = newAuthorInput.value.trim();
+        const isbn = newISBNInput.value.trim();
+
+        if (title === "" || author === "" || isbn === "") {
+            alert("Please fill in all fields.");
+            return;
+        }
+
+        const book = `${author}, '${title}'`;
+        if (books.has(book)) {
+            alert("Book already exists in the list.");
+        } else {
+            books.add(book);
+
+            const listItem = document.createElement("li");
+            listItem.textContent = book;
+            bookList.appendChild(listItem);
+
+            newTitleInput.value = ""; 
+            newAuthorInput.value = "";
+            newISBNInput.value = "";
+        }
+    }
+
+    // Function to search for books
+    function searchBooks() {
+        const searchInput = document.getElementById("searchInput");
+        const searchTerm = searchInput.value.trim();
+
+        if (searchTerm === "") {
+            alert("Please enter a search term.");
+            return;
+        }
+
+        // Loop through the book list and highlight matching books
+        const bookItems = bookList.querySelectorAll("li");
+        bookItems.forEach((item) => {
+            if (item.textContent.toLowerCase().includes(searchTerm.toLowerCase())) {
+                item.style.backgroundColor = "yellow";
+            } else {
+                item.style.backgroundColor = "";
+            }
+        });
+    }
+</script>
+<div style="background-color: black;"> 
+<footer style="text-align: center; color: white;">@OLMS2023</footer>
+</div>
+</body>
+</html>
